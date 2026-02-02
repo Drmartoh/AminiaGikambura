@@ -164,12 +164,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Django Sites Framework
 SITE_ID = 1
 
-# REST Framework
-try:
-    from rest_framework_simplejwt.authentication import JWTAuthentication
-    JWT_AVAILABLE = True
-except ImportError:
-    JWT_AVAILABLE = False
+# REST Framework (don't import JWTAuthentication here - Django app registry not ready yet)
+import importlib.util
+JWT_AVAILABLE = importlib.util.find_spec('rest_framework_simplejwt') is not None
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
