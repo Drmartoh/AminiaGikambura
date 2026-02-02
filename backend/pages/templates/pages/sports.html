@@ -1,0 +1,41 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}Sports and Talent{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12">
+  <h1 class="text-4xl font-bold text-primary mb-4">Sports and Talent</h1>
+  <p class="text-gray-600 mb-8 max-w-2xl">Programs and teams.</p>
+  {% if programs %}
+  <section class="mb-12">
+    <h2 class="text-2xl font-bold mb-6">Programs</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for p in programs %}
+      <div class="card">
+        <h3 class="text-xl font-bold text-primary">{{ p.name }}</h3>
+        <p class="text-sm text-gray-500">{{ p.sport_type }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+  {% if teams %}
+  <section>
+    <h2 class="text-2xl font-bold mb-6">Teams</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {% for t in teams %}
+      <div class="card">
+        <h3 class="text-xl font-bold">{{ t.name }}</h3>
+        <p class="text-sm text-primary">{{ t.sport_program.name }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+  {% if not programs and not teams %}
+  <div class="card py-12 text-center">
+    <p class="text-gray-600">No sports data yet.</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

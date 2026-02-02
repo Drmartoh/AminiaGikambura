@@ -1,0 +1,22 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}{{ event.title }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12">
+  <a href="{% url 'pages:events' %}" class="text-primary font-semibold mb-6 inline-block hover:underline">← Back to Events</a>
+  {% if event.featured_image %}
+  <div class="w-full h-64 md:h-96 bg-gray-200 rounded-xl mb-8 overflow-hidden">
+    <img src="{{ event.featured_image.url }}" alt="{{ event.title }}" class="w-full h-full object-cover">
+  </div>
+  {% endif %}
+  <span class="px-3 py-1 bg-accent/10 text-accent rounded-full text-sm">{{ event.get_event_type_display }}</span>
+  <h1 class="text-4xl font-bold text-primary mt-4 mb-4">{{ event.title }}</h1>
+  <p class="text-gray-600 mb-2">Start: {{ event.start_date|date:"F j, Y, g:i a" }}</p>
+  {% if event.end_date %}<p class="text-gray-600 mb-4">End: {{ event.end_date|date:"F j, Y, g:i a" }}</p>{% endif %}
+  <p class="text-gray-600 mb-6">Venue: {{ event.venue }}</p>
+  <div class="prose max-w-none">
+    <p class="text-gray-600 whitespace-pre-wrap">{{ event.description }}</p>
+  </div>
+</div>
+{% endblock %}

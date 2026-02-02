@@ -1,0 +1,31 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="py-12 bg-gray-100">
+  <div class="container mx-auto px-4">
+    <h1 class="text-4xl font-bold mb-8">Welcome, {{ user.first_name|default:user.username }}!</h1>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div class="card">
+        <h3 class="text-lg font-semibold mb-2">My Projects</h3>
+        <p class="text-3xl font-bold text-primary">0</p>
+      </div>
+      <div class="card">
+        <h3 class="text-lg font-semibold mb-2">My Events</h3>
+        <p class="text-3xl font-bold text-accent">0</p>
+      </div>
+      <div class="card">
+        <h3 class="text-lg font-semibold mb-2">My Points</h3>
+        <p class="text-3xl font-bold text-teal">0</p>
+      </div>
+    </div>
+    {% if not user.is_approved %}
+    <div class="card bg-yellow-50 border-2 border-yellow-200">
+      <h3 class="text-lg font-semibold mb-2 text-yellow-800">Account Pending Approval</h3>
+      <p class="text-yellow-700">Your account is pending admin approval. You'll be able to access all features once approved.</p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

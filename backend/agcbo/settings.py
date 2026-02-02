@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'sports',
     'gamification',
     'reports',
+    'pages',
 ]
 
 MIDDLEWARE = [
@@ -242,6 +243,11 @@ PAYPAL_MODE = config('PAYPAL_MODE', default='sandbox')  # sandbox or live
 STRIPE_PUBLIC_KEY = config('STRIPE_PUBLIC_KEY', default='')
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='')
 STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET', default='')
+
+# Web login (pages app)
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/dashboard/'
+LOGOUT_REDIRECT_URL = '/'
 
 # Security Settings (for production)
 if not DEBUG:

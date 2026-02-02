@@ -2,13 +2,16 @@
 
 A comprehensive web platform for Aminia Gikambura Community Based Organisation (CBO) - a Youth Community Based Organisation in Kenya.
 
+**Django-only deployment:** The site can be run entirely on Django (no Node.js). All public pages (home, about, projects, events, gallery, sports, reports, contact, login, register, dashboard) are served by the **pages** app using Django templates. This allows hosting the full site on **PythonAnywhere** or any Python/Django host. See [DEPLOYMENT.md](DEPLOYMENT.md).
+
 ## Project Structure
 
 ```
 CBO/
-├── backend/              # Django backend
+├── backend/              # Django backend (full site + API)
 │   ├── agcbo/           # Main Django project
 │   ├── core/            # Core app with User model
+│   ├── pages/            # Web pages (templates, views) – Django-only frontend
 │   ├── members/         # Member management
 │   ├── projects/        # Project management
 │   ├── funding/         # Funding & donations
@@ -17,7 +20,7 @@ CBO/
 │   ├── sports/          # Sports programs
 │   ├── gamification/    # Points, badges, leaderboard
 │   └── reports/         # Reporting system
-├── frontend/            # React frontend
+├── frontend/            # (Optional) Next.js frontend – not required for PythonAnywhere
 │   ├── src/
 │   │   ├── components/  # Reusable components
 │   │   ├── pages/       # Page components

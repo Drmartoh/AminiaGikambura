@@ -1,0 +1,31 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}Gallery{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12">
+  <h1 class="text-4xl font-bold text-primary mb-4">Gallery</h1>
+  <p class="text-gray-600 mb-8">Photos and videos.</p>
+  {% if items %}
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    {% for item in items %}
+    <div class="card overflow-hidden p-0">
+      {% if item.file %}
+      <div class="aspect-square bg-gray-200">
+        <img src="{{ item.file.url }}" alt="{{ item.title }}" class="w-full h-full object-cover">
+      </div>
+      {% endif %}
+      <div class="p-4">
+        <h3 class="font-bold">{{ item.title }}</h3>
+        <p class="text-sm text-gray-500">{{ item.year }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="card py-12 text-center">
+    <p class="text-gray-600">No gallery items yet.</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

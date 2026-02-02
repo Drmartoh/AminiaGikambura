@@ -1,0 +1,131 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}About AGCBO{% endblock %}
+
+{% block content %}
+<section class="bg-gradient-to-br from-primary via-primary-light to-teal text-white py-20">
+  <div class="container mx-auto px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="text-5xl md:text-6xl font-bold mb-6">About AGCBO</h1>
+      <p class="text-xl md:text-2xl text-gray-100 mb-4">Aminia Gikambura Community Based Organisation</p>
+      <p class="text-lg text-gray-200 max-w-2xl mx-auto">Empowering youth, transforming communities, and building a better future for Kenya</p>
+    </div>
+  </div>
+</section>
+
+<section class="py-12 bg-gray-100">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div class="text-center">
+        <div class="text-4xl md:text-5xl font-bold text-primary mb-2">{{ stats.members }}+</div>
+        <div class="text-gray-600">Active Members</div>
+      </div>
+      <div class="text-center">
+        <div class="text-4xl md:text-5xl font-bold text-primary mb-2">{{ stats.projects }}+</div>
+        <div class="text-gray-600">Projects Completed</div>
+      </div>
+      <div class="text-center">
+        <div class="text-4xl md:text-5xl font-bold text-primary mb-2">{{ stats.events }}+</div>
+        <div class="text-gray-600">Events Hosted</div>
+      </div>
+      <div class="text-center">
+        <div class="text-4xl md:text-5xl font-bold text-primary mb-2">{{ stats.communities }}+</div>
+        <div class="text-gray-600">Communities Reached</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container mx-auto px-4 py-12 max-w-6xl">
+  <section class="mb-16">
+    <div class="card bg-green-50 border-l-4 border-primary p-8">
+      <h2 class="text-3xl font-bold text-primary mb-4">Our Vision</h2>
+      <p class="text-lg text-gray-700 leading-relaxed">To be a leading youth-led community-based organisation that empowers young people and transforms communities through sustainable projects, strategic partnerships, and active civic engagement. We envision a future where every young person in Kenya has the skills, opportunities, and support they need to thrive, and where communities are self-reliant, prosperous, and actively contributing to national development goals.</p>
+    </div>
+  </section>
+
+  <section class="mb-16">
+    <div class="card bg-amber-50 border-l-4 border-accent p-8">
+      <h2 class="text-3xl font-bold text-accent mb-4">Our Mission</h2>
+      <p class="text-lg text-gray-700 leading-relaxed mb-4">To mobilise, equip, and empower youth with the skills, knowledge, and opportunities they need to participate meaningfully in community development, advocate for their rights and interests, and contribute to achieving national goals in alignment with County Government and Ministry priorities.</p>
+      <p class="text-lg text-gray-700 leading-relaxed">We achieve this by implementing innovative projects, fostering partnerships with government and development partners, providing training and mentorship, and creating platforms for youth voice and leadership.</p>
+    </div>
+  </section>
+
+  <section class="mb-16">
+    <h2 class="text-3xl font-bold text-primary mb-8 text-center">Our Core Values</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="card"><div class="text-4xl mb-3">✓</div><h3 class="text-xl font-bold text-primary mb-2">Integrity</h3><p class="text-gray-600">We maintain the highest standards of transparency, accountability, and ethical conduct in all our operations and relationships.</p></div>
+      <div class="card"><div class="text-4xl mb-3">👥</div><h3 class="text-xl font-bold text-primary mb-2">Inclusion</h3><p class="text-gray-600">We believe every young person deserves a voice and opportunity, regardless of background, gender, or circumstance.</p></div>
+      <div class="card"><div class="text-4xl mb-3">💡</div><h3 class="text-xl font-bold text-primary mb-2">Innovation</h3><p class="text-gray-600">We embrace new ideas, technologies, and approaches to solve community challenges and maximize our impact.</p></div>
+      <div class="card"><div class="text-4xl mb-3">🤝</div><h3 class="text-xl font-bold text-primary mb-2">Partnership</h3><p class="text-gray-600">We collaborate with County Government, Ministries, donors, and communities to achieve shared development goals.</p></div>
+      <div class="card"><div class="text-4xl mb-3">🌱</div><h3 class="text-xl font-bold text-primary mb-2">Sustainability</h3><p class="text-gray-600">We design programs that create lasting change and empower communities to continue development independently.</p></div>
+      <div class="card"><div class="text-4xl mb-3">❤️</div><h3 class="text-xl font-bold text-primary mb-2">Service</h3><p class="text-gray-600">We are driven by a genuine commitment to serve our communities and improve the lives of young people.</p></div>
+    </div>
+  </section>
+
+  <section class="mb-16">
+    <h2 class="text-3xl font-bold text-primary mb-6">Our Story</h2>
+    <div class="prose max-w-none">
+      <p class="text-lg text-gray-700 leading-relaxed mb-4"><strong>Aminia Gikambura Community Based Organisation (AGCBO)</strong> was founded by a group of passionate young leaders who recognized the immense potential of youth in driving community transformation. Registered and operating in Kenya, with a primary focus on <strong>Kiambu County</strong>, AGCBO has grown from a small grassroots initiative to a recognized partner in community development.</p>
+      <p class="text-lg text-gray-700 leading-relaxed mb-4">Our journey began with a simple belief: that young people, when given the right tools, opportunities, and support, can be powerful agents of change in their communities. Over the years, we have worked tirelessly to bridge the gap between youth aspirations and community needs, creating programs that address real challenges while building the capacity of young people.</p>
+      <p class="text-lg text-gray-700 leading-relaxed">Today, AGCBO stands as a testament to what is possible when youth leadership, community engagement, and strategic partnerships come together. We continue to expand our reach, deepen our impact, and inspire the next generation of community leaders.</p>
+    </div>
+  </section>
+
+  <section class="mb-16">
+    <h2 class="text-3xl font-bold text-primary mb-8 text-center">What We Do</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="card"><div class="text-4xl mb-3">🎓</div><h3 class="text-xl font-bold text-primary mb-2">Youth Empowerment</h3><p class="text-gray-600">Skills training, mentorship, leadership development, and creating opportunities for young people to thrive.</p></div>
+      <div class="card"><div class="text-4xl mb-3">🏘️</div><h3 class="text-xl font-bold text-primary mb-2">Community Development</h3><p class="text-gray-600">Infrastructure projects, economic development, and initiatives that improve quality of life in our communities.</p></div>
+      <div class="card"><div class="text-4xl mb-3">🌾</div><h3 class="text-xl font-bold text-primary mb-2">Agriculture & Food Security</h3><p class="text-gray-600">Supporting local farmers, promoting sustainable agriculture, and ensuring food security for our communities.</p></div>
+      <div class="card"><div class="text-4xl mb-3">🌳</div><h3 class="text-xl font-bold text-primary mb-2">Environment & Conservation</h3><p class="text-gray-600">Environmental protection, tree planting, waste management, and climate action initiatives.</p></div>
+      <div class="card"><div class="text-4xl mb-3">⚽</div><h3 class="text-xl font-bold text-primary mb-2">Sports & Talent Development</h3><p class="text-gray-600">Nurturing athletic talent, promoting physical fitness, and using sports as a tool for youth engagement.</p></div>
+      <div class="card"><div class="text-4xl mb-3">📚</div><h3 class="text-xl font-bold text-primary mb-2">Education & Training</h3><p class="text-gray-600">Scholarships, training programs, workshops, and educational support for youth and community members.</p></div>
+    </div>
+  </section>
+
+  <section class="mb-16">
+    <h2 class="text-3xl font-bold text-primary mb-6">Our Approach</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="card"><h3 class="text-xl font-bold text-primary mb-3">Community-Centered</h3><p class="text-gray-600">All our programs are designed in consultation with community members, ensuring they address real needs and have local ownership.</p></div>
+      <div class="card"><h3 class="text-xl font-bold text-primary mb-3">Evidence-Based</h3><p class="text-gray-600">We use data and research to inform our decisions, measure our impact, and continuously improve our programs.</p></div>
+      <div class="card"><h3 class="text-xl font-bold text-primary mb-3">Youth-Led</h3><p class="text-gray-600">Young people are at the center of everything we do - from planning to implementation to evaluation.</p></div>
+      <div class="card"><h3 class="text-xl font-bold text-primary mb-3">Partnership-Driven</h3><p class="text-gray-600">We work closely with County Government, Ministries, donors, and other stakeholders to maximize resources and impact.</p></div>
+    </div>
+  </section>
+
+  <section class="mb-16">
+    <div class="card bg-slate-50 p-8">
+      <h2 class="text-3xl font-bold text-primary mb-4">Registration & Legal Status</h2>
+      <div class="space-y-3 text-gray-700">
+        <p><strong>Organization Name:</strong> Aminia Gikambura Community Based Organisation (AGCBO)</p>
+        <p><strong>Legal Status:</strong> Registered Community Based Organisation</p>
+        <p><strong>Primary Operating Area:</strong> Kiambu County, Kenya</p>
+        <p><strong>Scope:</strong> National (with focus on Kiambu County)</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-16">
+    <div class="card bg-gradient-to-r from-primary to-teal text-white p-12 text-center">
+      <h2 class="text-3xl font-bold mb-4">Join Us in Making a Difference</h2>
+      <p class="text-lg mb-8 text-gray-100 max-w-2xl mx-auto">Whether you are a young person wanting to join our movement, a donor wishing to support a project, a partner interested in collaboration, or a community member seeking assistance – we would like to hear from you.</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="{% url 'pages:register' %}" class="bg-white text-primary hover:bg-gray-100 font-semibold py-3 px-6 rounded-xl transition-all">Join as a Member</a>
+        <a href="{% url 'pages:projects' %}" class="bg-white/20 text-white hover:bg-white/30 border-2 border-white font-semibold py-3 px-6 rounded-xl transition-all">Support a Project</a>
+        <a href="{% url 'pages:contact' %}" class="bg-white/20 text-white hover:bg-white/30 border-2 border-white font-semibold py-3 px-6 rounded-xl transition-all">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-16">
+    <h2 class="text-3xl font-bold text-primary mb-6 text-center">Get in Touch</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="card text-center"><div class="text-4xl mb-3">📧</div><h3 class="font-bold text-primary mb-2">Email</h3><p class="text-gray-600">info@agcbo.org</p></div>
+      <div class="card text-center"><div class="text-4xl mb-3">📱</div><h3 class="font-bold text-primary mb-2">Phone</h3><p class="text-gray-600">+254 XXX XXX XXX</p></div>
+      <div class="card text-center"><div class="text-4xl mb-3">📍</div><h3 class="font-bold text-primary mb-2">Location</h3><p class="text-gray-600">Kiambu County, Kenya</p></div>
+    </div>
+  </section>
+</div>
+{% endblock %}

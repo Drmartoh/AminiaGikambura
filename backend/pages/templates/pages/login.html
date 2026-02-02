@@ -1,0 +1,36 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="flex items-center justify-center py-20 bg-gray-100">
+  <div class="w-full max-w-md">
+    <div class="card">
+      <h1 class="text-3xl font-bold text-center mb-6">Login</h1>
+      {% if form.non_field_errors %}
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          {% for err in form.non_field_errors %}{{ err }}{% endfor %}
+        </div>
+      {% endif %}
+      <form method="post" action="{% url 'pages:login' %}" class="space-y-4">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+        <div>
+          <label class="block text-sm font-medium mb-2">Username</label>
+          <input type="text" name="username" class="input-field" required value="{{ form.username.value|default:'' }}" autofocus>
+          {% if form.username.errors %}<p class="text-red-600 text-sm mt-1">{{ form.username.errors.0 }}</p>{% endif %}
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-2">Password</label>
+          <input type="password" name="password" class="input-field" required>
+          {% if form.password.errors %}<p class="text-red-600 text-sm mt-1">{{ form.password.errors.0 }}</p>{% endif %}
+        </div>
+        <button type="submit" class="w-full btn-primary">Login</button>
+      </form>
+      <p class="text-center mt-6 text-gray-600">
+        Don't have an account? <a href="{% url 'pages:register' %}" class="text-primary hover:text-primary-light font-semibold">Register here</a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}
