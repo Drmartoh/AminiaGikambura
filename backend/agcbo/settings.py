@@ -9,13 +9,16 @@ from datetime import timedelta
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load .env from backend directory so it's found regardless of CWD (fixes migrate on PythonAnywhere)
-from decouple import Config, RepositoryEnv
-_env_path = BASE_DIR / '.env'
-if _env_path.exists():
-    config = Config(RepositoryEnv(str(_env_path)))
-else:
-    from decouple import config as _default_config
-    config = _default_config
+try:
+    from decouple import Config, RepositoryEnv
+    _env_path = BASE_DIR / '.env'
+    if _env_path.exists():
+        config = Config(RepositoryEnv(str(_env_path)))
+    else:
+        from decouple import config as _default_config
+        config = _default_config
+except Exception:
+    from decouple import config
 
 # Cloudinary: only enable when package is installed AND credentials are set
 CLOUDINARY_AVAILABLE = False
@@ -105,26 +108,28 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'agcbo.wsgi.application'
 
-# Database (set DB_ENGINE=sqlite in .env for PythonAnywhere / no PostgreSQL)
-DB_ENGINE = (config('DB_ENGINE', default='sqlite') or 'sqlite').strip().lower()
-if DB_ENGINE == 'sqlite':
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+# Database: always set a valid DATABASES (default sqlite; use DB_ENGINE=postgres for PostgreSQL)
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': config('DB_NAME', default='agcbo_db'),
-            'USER': config('DB_USER', default='postgres'),
-            'PASSWORD': config('DB_PASSWORD', default='postgres'),
-            'HOST': config('DB_HOST', default='localhost'),
-            'PORT': config('DB_PORT', default='5432'),
+}
+try:
+    _db_engine = (config('DB_ENGINE', default='sqlite') or 'sqlite').strip().lower()
+    if _db_engine not in ('sqlite', 'sqlite3'):
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': config('DB_NAME', default='agcbo_db'),
+                'USER': config('DB_USER', default='postgres'),
+                'PASSWORD': config('DB_PASSWORD', default='postgres'),
+                'HOST': config('DB_HOST', default='localhost'),
+                'PORT': config('DB_PORT', default='5432'),
+            }
         }
-    }
+except Exception:
+    pass  # keep sqlite default
 
 # Custom User Model
 AUTH_USER_MODEL = 'core.User'
@@ -279,3 +284,12 @@ if not DEBUG:
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
     X_FRAME_OPTIONS = 'DENY'
+
+# Fail-safe: ensure DATABASES has a valid ENGINE (fixes "Must supply ENGINE" on some hosts)
+if not DATABASES.get('default') or not DATABASES['default'].get('ENGINE') or 'dummy' in str(DATABASES['default'].get('ENGINE', '')):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
