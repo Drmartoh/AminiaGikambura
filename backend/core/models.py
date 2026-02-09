@@ -245,8 +245,8 @@ class SectionStyle(models.Model):
     label = models.CharField(max_length=120, help_text='Display name in admin (e.g. Header, Home Hero)')
     background_type = models.CharField(max_length=20, choices=BACKGROUND_TYPES, default='plain')
     background_color = models.CharField(max_length=20, blank=True, default='#ffffff')
-    background_image = models.ImageField(upload_to='sections/', blank=True, null=True)
-    background_video = models.FileField(upload_to='sections/video/', blank=True, null=True)
+    background_image = models.ImageField(upload_to='sections/', storage=get_storage(), blank=True, null=True)
+    background_video = models.FileField(upload_to='sections/video/', storage=get_storage(), blank=True, null=True)
     background_video_url = models.URLField(blank=True, help_text='Or use YouTube/Vimeo URL instead of upload')
     slide_interval_seconds = models.PositiveSmallIntegerField(default=5, help_text='For carousel/auto_slides')
     is_active = models.BooleanField(default=True)
@@ -277,7 +277,7 @@ class SectionStyle(models.Model):
 class SectionSlide(models.Model):
     """Single slide image for a carousel/auto_slides section."""
     section_style = models.ForeignKey(SectionStyle, on_delete=models.CASCADE, related_name='slides')
-    image = models.ImageField(upload_to='sections/slides/')
+    image = models.ImageField(upload_to='sections/slides/', storage=get_storage())
     order = models.PositiveSmallIntegerField(default=0)
     caption = models.CharField(max_length=200, blank=True)
 
