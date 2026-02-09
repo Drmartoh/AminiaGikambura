@@ -41,7 +41,7 @@ Then add `backend/media/` to `.gitignore` if it’s not there.
 ## Step 4: Commit with a message
 
 ```powershell
-git commit -m "Security and UX: admin/manage panel, donor & county official registration, logout redirect, footer address, responsive manage sidebar"
+git commit -m "Fix Cloudinary: use only when credentials set so manage settings save works without api_key"
 ```
 
 Use any message you like; the one above is a suggestion.
@@ -62,27 +62,37 @@ git push origin main
 ## Step 6: On PythonAnywhere – pull the updates
 
 1. Open a **Bash console** on PythonAnywhere.
-2. Go to your project directory, for example:
+2. Go to your project directory (use your actual path), e.g.:
    ```bash
    cd ~/AminiaGikambura
    ```
-   (Use the path where your repo is.)
-3. Pull from GitHub:
+3. **If you have local changes to `backend/agcbo/settings.py` on PA** (e.g. ALLOWED_HOSTS), stash them so pull doesn’t overwrite or conflict:
+   ```bash
+   git stash push -m "pa-settings" backend/agcbo/settings.py
+   ```
+4. Pull from GitHub:
    ```bash
    git pull origin main
    ```
    (Use `master` if that’s your branch name.)
-4. If you use a virtualenv, activate it, then reinstall if needed:
+5. **If you stashed in step 3**, put your PA settings back:
    ```bash
-   workon your-venv-name
+   git stash pop
+   ```
+   If there’s a conflict, edit `backend/agcbo/settings.py` and keep your `ALLOWED_HOSTS` (e.g. `.pythonanywhere.com`), then remove conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`).
+6. Activate virtualenv and reinstall dependencies if needed:
+   ```bash
+   source backend/venv/bin/activate
    pip install -r backend/requirements.txt
    ```
-5. Run migrations if you added new ones:
+   (Or `workon your-venv-name` if you use that.)
+7. Run migrations if you pulled new ones:
    ```bash
    cd backend
    python manage.py migrate
+   cd ..
    ```
-6. Reload your web app from the **PythonAnywhere Web** tab.
+8. **Reload your web app**: PythonAnywhere **Web** tab → **Reload**.
 
 ---
 
@@ -91,7 +101,7 @@ git push origin main
 | Where        | Command / action |
 |-------------|-------------------|
 | **Your PC** | `git add .` → `git commit -m "message"` → `git push origin main` |
-| **PythonAnywhere** | `git pull origin main` → `python manage.py migrate` (if needed) → Reload web app |
+| **PythonAnywhere** | (optional) `git stash` settings.py → `git pull origin main` → `git stash pop` → `migrate` if needed → **Reload** web app |
 
 ---
 

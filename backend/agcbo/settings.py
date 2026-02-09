@@ -6,14 +6,19 @@ from pathlib import Path
 from decouple import config
 from datetime import timedelta
 
-# Cloudinary imports (optional)
+# Cloudinary: only enable when package is installed AND credentials are set
+CLOUDINARY_AVAILABLE = False
 try:
     import cloudinary
     import cloudinary.uploader
     import cloudinary.api
-    CLOUDINARY_AVAILABLE = True
+    _cn = config('CLOUDINARY_CLOUD_NAME', default='')
+    _key = config('CLOUDINARY_API_KEY', default='')
+    _secret = config('CLOUDINARY_API_SECRET', default='')
+    if _cn.strip() and _key.strip() and _secret.strip():
+        CLOUDINARY_AVAILABLE = True
 except ImportError:
-    CLOUDINARY_AVAILABLE = False
+    pass
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

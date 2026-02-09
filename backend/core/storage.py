@@ -1,13 +1,17 @@
 """
-Storage utility for optional Cloudinary support
+Storage utility for optional Cloudinary support.
+Uses Django settings.CLOUDINARY_AVAILABLE so Cloudinary is only used when configured (credentials set).
 """
+from django.conf import settings
+
+MediaCloudinaryStorage = None
 try:
     from cloudinary_storage.storage import MediaCloudinaryStorage
-    CLOUDINARY_AVAILABLE = True
 except ImportError:
-    CLOUDINARY_AVAILABLE = False
-    MediaCloudinaryStorage = None
+    pass
 
 def get_storage():
-    """Get storage class, returns MediaCloudinaryStorage if available, None otherwise"""
-    return MediaCloudinaryStorage() if CLOUDINARY_AVAILABLE else None
+    """Return Cloudinary storage only if configured in settings, else None (filesystem)."""
+    if getattr(settings, 'CLOUDINARY_AVAILABLE', False) and MediaCloudinaryStorage is not None:
+        return MediaCloudinaryStorage()
+    return None
