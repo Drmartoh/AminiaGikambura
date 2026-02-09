@@ -1,0 +1,37 @@
+{% comment %}
+  Usage: {% include "pages/includes/section_background.html" with section_key="header" css_class="min-h-16" only %}
+  Or pass style_obj directly: {% include "pages/includes/section_background.html" with style_obj=section_styles.header css_class="..." only %}
+  Inner content goes in block section_content (or we use slot - in Django we need to pass content as a variable or use block in parent).
+  So we use: include with ... and the caller wraps content. Actually include doesn't have a block; the parent template wraps the section. So the pattern is:
+  Parent has: <div class="section-wrapper {{ section_key }}"> ... content ... </div>
+  And we need the section wrapper to get the background from section_styles. So the include could output just the inner "background" part (the div that has the bg image/video) and the parent puts content on top. Or the include receives the section_key and outputs a wrapper with the right background, and the "content" we need to pass - in Django include we can't pass a block. So the best approach is: the parent template has a wrapper div and inside it we have (1) the background layer (from include) and (2) the content layer. So we need two includes or one include that outputs both. The cleanest: one include that takes section_key and optional content as a variable. But content as variable is awkward (can't pass HTML easily). So instead: the include only renders the *background* layer (a div that is position absolute or the background styling). The parent does:
+  <div class="relative overflow-hidden">
+    {% include "pages/includes/section_background.html" with section_key="header" %}
+    <div class="relative z-10"> ... actual content ... </div>
+  </div>
+  So the include renders one div that fills the parent and has the background (color, image, video, or carousel). The parent must have position relative. Let me implement that: include outputs a div with class "section-bg-layer" and the appropriate inner content (color style, or img, or video, or carousel slides). The parent wraps this and the content in a relative container.
+{% endcomment %}
+{% if style_obj %}
+<div class="section-bg-layer absolute inset-0 w-full h-full overflow-hidden" aria-hidden="true">
+  {% if style_obj.background_type == 'plain' %}
+    <div class="absolute inset-0 w-full h-full" style="background-color: {{ style_obj.background_color|default:'#ffffff' }};"></div>
+  {% elif style_obj.background_type == 'image' and style_obj.background_image %}
+    <div class="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat" style="background-image: url('{{ style_obj.background_image.url }}');"></div>
+  {% elif style_obj.background_type == 'video' %}
+    {% if style_obj.get_video_embed_url %}
+      <iframe class="absolute inset-0 w-full h-full min-w-full min-h-full pointer-events-none" style="object-fit: cover;" src="{{ style_obj.get_video_embed_url }}" allow="autoplay; encrypted-media" title=""></iframe>
+    {% elif style_obj.background_video %}
+      <video class="absolute inset-0 w-full h-full object-cover" autoplay muted loop playsinline><source src="{{ style_obj.background_video.url }}"></video>
+    {% endif %}
+  {% elif style_obj.background_type == 'carousel' or style_obj.background_type == 'auto_slides' %}
+    <div class="section-carousel absolute inset-0 w-full h-full {% if style_obj.background_type == 'auto_slides' %}auto-slides{% endif %}" data-interval="{{ style_obj.slide_interval_seconds|default:5 }}">
+      {% for slide in style_obj.slides.all %}
+      <div class="carousel-slide absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-opacity duration-1000 {% if forloop.first %}opacity-100{% else %}opacity-0{% endif %}" style="background-image: url('{{ slide.image.url }}');" data-index="{{ forloop.counter0 }}"></div>
+      {% endfor %}
+    </div>
+  {% endif %}
+  {% if style_obj.background_type != 'plain' %}
+  <div class="absolute inset-0 w-full h-full bg-black/40"></div>
+  {% endif %}
+</div>
+{% endif %}

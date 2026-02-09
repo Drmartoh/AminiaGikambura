@@ -1,0 +1,40 @@
+{% extends 'pages/manage/base_manage.html' %}
+{% block title %}Events{% endblock %}
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold text-slate-800">Events</h1>
+  <a href="{% url 'manage:event_add' %}" class="btn-manage inline-flex items-center gap-2">+ Add event</a>
+</div>
+<div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+  <div class="overflow-x-auto">
+    <table class="w-full text-left">
+      <thead class="bg-slate-50 text-slate-600 text-sm">
+        <tr>
+          <th class="px-6 py-4 font-medium">Title</th>
+          <th class="px-6 py-4 font-medium">Type</th>
+          <th class="px-6 py-4 font-medium">Start</th>
+          <th class="px-6 py-4 font-medium">Published</th>
+          <th class="px-6 py-4 font-medium w-32">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100">
+        {% for item in items %}
+        <tr class="hover:bg-slate-50/50">
+          <td class="px-6 py-4 font-medium text-slate-800">{{ item.title }}</td>
+          <td class="px-6 py-4 text-sm">{{ item.get_event_type_display }}</td>
+          <td class="px-6 py-4 text-sm">{{ item.start_date|date:"M d, Y H:i" }}</td>
+          <td class="px-6 py-4">{% if item.is_published %}<span class="text-emerald-600 text-sm">Yes</span>{% else %}No{% endif %}</td>
+          <td class="px-6 py-4">
+            <a href="{% url 'manage:event_edit' item.pk %}" class="text-primary text-sm font-medium hover:underline">Edit</a>
+            <span class="text-slate-300 mx-1">·</span>
+            <a href="{% url 'manage:event_delete' item.pk %}" class="text-red-600 text-sm font-medium hover:underline">Delete</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5" class="px-6 py-12 text-center text-slate-500">No events yet. <a href="{% url 'manage:event_add' %}" class="text-primary font-medium">Add one</a>.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -4,11 +4,10 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<section class="relative bg-gradient-to-br from-primary via-primary-light to-teal min-h-[700px] flex items-center overflow-hidden">
-  <div class="absolute inset-0 overflow-hidden">
-    <div class="absolute top-20 left-10 w-72 h-72 bg-accent/20 rounded-full blur-3xl animate-pulse"></div>
-    <div class="absolute bottom-20 right-10 w-96 h-96 bg-sky-500/20 rounded-full blur-3xl animate-pulse" style="animation-delay:1s"></div>
-  </div>
+<section class="relative min-h-[700px] flex items-center overflow-hidden">
+  {% with hero_style=section_styles.hero %}
+  {% if hero_style %}{% include "pages/includes/section_background.html" with style_obj=hero_style only %}{% else %}<div class="absolute inset-0 bg-gradient-to-br from-primary via-primary-light to-teal"></div><div class="absolute inset-0 overflow-hidden"><div class="absolute top-20 left-10 w-72 h-72 bg-accent/20 rounded-full blur-3xl animate-pulse"></div><div class="absolute bottom-20 right-10 w-96 h-96 bg-sky-500/20 rounded-full blur-3xl animate-pulse" style="animation-delay:1s"></div></div>{% endif %}
+  {% endwith %}
   <div class="container mx-auto px-4 py-20 relative z-10">
     <div class="mb-10 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8">
       <div class="relative inline-block">
@@ -21,6 +20,7 @@
               Community Based Organisation
             </div>
             <span class="inline-block px-6 py-2 bg-gradient-to-r from-primary to-primary-light text-white rounded-full text-base md:text-lg font-bold mt-2 shadow-lg">(CBO)</span>
+            <p class="text-white/90 text-xs mt-3">Reg. No. {% if site_settings and site_settings.registration_number %}{{ site_settings.registration_number }}{% else %}DSD/22/120/02/168788{% endif %}</p>
           </div>
         </div>
       </div>

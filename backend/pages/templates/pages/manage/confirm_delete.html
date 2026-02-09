@@ -1,0 +1,18 @@
+{% extends 'pages/manage/base_manage.html' %}
+{% block title %}Delete {{ label }}{% endblock %}
+{% block content %}
+<div class="mb-6">
+  <a href="{% if cancel_link %}{{ cancel_link }}{% else %}{% url cancel_url %}{% endif %}" class="text-slate-500 hover:text-slate-700 text-sm">Back</a>
+</div>
+<div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 max-w-md">
+  <h1 class="text-xl font-bold text-slate-800 mb-2">Delete "{{ item }}"?</h1>
+  <p class="text-slate-600 mb-6">This cannot be undone.</p>
+  <form method="post">
+    {% csrf_token %}
+    <div class="flex gap-3">
+      <button type="submit" class="px-4 py-2 rounded-lg bg-red-600 text-white font-medium hover:bg-red-700">Delete</button>
+      <a href="{% if cancel_link %}{{ cancel_link }}{% else %}{% url cancel_url %}{% endif %}" class="px-4 py-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

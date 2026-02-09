@@ -1,0 +1,46 @@
+{% extends 'pages/manage/base_manage.html' %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<div class="mb-6"><a href="{% url 'manage:section_styles_list' %}" class="text-slate-500 hover:text-slate-700 text-sm">Back to section backgrounds</a></div>
+<h1 class="text-2xl font-bold text-slate-800 mb-6">{{ title }}</h1>
+<div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 max-w-2xl mb-8">
+  <form method="post" enctype="multipart/form-data" class="space-y-5">
+    {% csrf_token %}
+    {% for field in form %}
+    <div>
+      <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-slate-700 mb-1">{{ field.label }}</label>
+      {{ field }}
+      {% if field.help_text %}<p class="text-xs text-slate-500 mt-1">{{ field.help_text }}</p>{% endif %}
+      {% if field.errors %}<p class="text-sm text-red-600 mt-1">{{ field.errors.0 }}</p>{% endif %}
+    </div>
+    {% endfor %}
+    <div class="flex gap-3 pt-2">
+      <button type="submit" class="btn-manage">Save</button>
+      <a href="{% url 'manage:section_styles_list' %}" class="px-4 py-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50">Cancel</a>
+    </div>
+  </form>
+</div>
+{% if item and item.background_type in 'carousel,auto_slides' %}
+<div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+  <h2 class="font-bold text-slate-800 mb-4">Slides for this section</h2>
+  <div class="flex flex-wrap gap-4 mb-4">
+    {% for slide in item.slides.all %}
+    <div class="border border-slate-200 rounded-lg overflow-hidden w-32">
+      <img src="{{ slide.image.url }}" alt="" class="w-full h-20 object-cover">
+      <div class="p-2 flex justify-between items-center">
+        <span class="text-xs text-slate-500">#{{ slide.order }}</span>
+        <a href="{% url 'manage:section_slide_delete' slide.pk %}" class="text-red-600 text-xs hover:underline">Remove</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <form method="post" action="{% url 'manage:section_slide_add' item.pk %}" enctype="multipart/form-data" class="flex flex-wrap items-end gap-3">
+    {% csrf_token %}
+    {{ slide_form.image }}
+    {{ slide_form.order }}
+    {{ slide_form.caption }}
+    <button type="submit" class="btn-manage text-sm py-2 px-4">Add slide</button>
+  </form>
+</div>
+{% endif %}
+{% endblock %}

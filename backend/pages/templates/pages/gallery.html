@@ -7,19 +7,26 @@
   <h1 class="text-4xl font-bold text-primary mb-4">Gallery</h1>
   <p class="text-gray-600 mb-8">Photos and videos.</p>
   {% if items %}
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
     {% for item in items %}
-    <div class="card overflow-hidden p-0">
-      {% if item.file %}
-      <div class="aspect-square bg-gray-200">
-        <img src="{{ item.file.url }}" alt="{{ item.title }}" class="w-full h-full object-cover">
+    <article class="card overflow-hidden p-0 group hover:shadow-xl transition-all duration-300">
+      {% if item.media_type == 'video' and item.url %}
+      <div class="p-4 pb-0">
+        <div class="relative w-full max-w-[400px] mx-auto aspect-video rounded-lg overflow-hidden bg-gray-900">
+          <iframe src="{{ item.get_embed_url }}" title="{{ item.title }}" class="absolute inset-0 w-full h-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+      {% elif item.image_url %}
+      <div class="aspect-[4/3] bg-gray-100 overflow-hidden">
+        <img src="{{ item.image_url }}" alt="{{ item.title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" referrerpolicy="no-referrer">
       </div>
       {% endif %}
       <div class="p-4">
-        <h3 class="font-bold">{{ item.title }}</h3>
-        <p class="text-sm text-gray-500">{{ item.year }}</p>
+        <h3 class="font-bold text-primary mb-1">{{ item.title }}</h3>
+        {% if item.description %}<p class="text-sm text-gray-600 line-clamp-2 mb-1">{{ item.description }}</p>{% endif %}
+        <p class="text-xs text-gray-500">{{ item.year }}</p>
       </div>
-    </div>
+    </article>
     {% endfor %}
   </div>
   {% else %}

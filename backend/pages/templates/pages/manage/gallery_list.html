@@ -1,0 +1,56 @@
+{% extends 'pages/manage/base_manage.html' %}
+{% block title %}Gallery{% endblock %}
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold text-slate-800">Gallery</h1>
+  <a href="{% url 'manage:gallery_add' %}" class="btn-manage inline-flex items-center gap-2">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+    Add item
+  </a>
+</div>
+<div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+  <div class="overflow-x-auto">
+    <table class="w-full text-left">
+      <thead class="bg-slate-50 text-slate-600 text-sm">
+        <tr>
+          <th class="px-6 py-4 font-medium">Preview</th>
+          <th class="px-6 py-4 font-medium">Title</th>
+          <th class="px-6 py-4 font-medium">Type</th>
+          <th class="px-6 py-4 font-medium">Year</th>
+          <th class="px-6 py-4 font-medium">Public</th>
+          <th class="px-6 py-4 font-medium w-40">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100">
+        {% for item in items %}
+        <tr class="hover:bg-slate-50/50">
+          <td class="px-6 py-3">
+            {% if item.media_type == 'video' and item.url %}
+            <div class="w-20 h-12 rounded-lg bg-slate-200 flex items-center justify-center text-slate-500 text-xs">Video</div>
+            {% elif item.image_url %}
+            <img src="{{ item.image_url }}" alt="" class="w-20 h-12 object-cover rounded-lg" referrerpolicy="no-referrer">
+            {% else %}
+            <div class="w-20 h-12 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400 text-xs">—</div>
+            {% endif %}
+          </td>
+          <td class="px-6 py-4">
+            <p class="font-medium text-slate-800">{{ item.title }}</p>
+            {% if item.description %}<p class="text-sm text-slate-500 line-clamp-1">{{ item.description }}</p>{% endif %}
+          </td>
+          <td class="px-6 py-4"><span class="text-sm capitalize">{{ item.media_type }}</span></td>
+          <td class="px-6 py-4 text-slate-600">{{ item.year }}</td>
+          <td class="px-6 py-4">{% if item.is_public %}<span class="text-emerald-600 text-sm">Yes</span>{% else %}<span class="text-slate-400 text-sm">No</span>{% endif %}</td>
+          <td class="px-6 py-4">
+            <a href="{% url 'manage:gallery_edit' item.pk %}" class="text-primary text-sm font-medium hover:underline">Edit</a>
+            <span class="text-slate-300 mx-1">·</span>
+            <a href="{% url 'manage:gallery_delete' item.pk %}" class="text-red-600 text-sm font-medium hover:underline">Delete</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6" class="px-6 py-12 text-center text-slate-500">No gallery items yet. <a href="{% url 'manage:gallery_add' %}" class="text-primary font-medium">Add one</a>.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

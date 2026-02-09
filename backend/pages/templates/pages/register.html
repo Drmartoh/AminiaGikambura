@@ -3,18 +3,53 @@
 {% block title %}Join AGCBO{% endblock %}
 
 {% block content %}
-<div class="flex items-center justify-center py-20 bg-gray-100">
-  <div class="w-full max-w-md">
+<div class="flex items-center justify-center py-12 bg-gray-100">
+  <div class="w-full max-w-2xl px-4">
     <div class="card">
-      <h1 class="text-3xl font-bold text-center mb-6">Join AGCBO</h1>
+      <h1 class="text-3xl font-bold text-center mb-2">Join AGCBO</h1>
+      <p class="text-center text-gray-600 text-sm mb-6">Membership registration (Kiambu County)</p>
       {% if form.non_field_errors %}
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
           {% for err in form.non_field_errors %}{{ err }}{% endfor %}
         </div>
       {% endif %}
-      <form method="post" action="{% url 'pages:register' %}" class="space-y-4">
+      <form method="post" action="{% url 'pages:register' %}" class="space-y-4" id="register-form">
         {% csrf_token %}
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-2">ID or Passport number *</label>
+            <input type="text" name="id_or_passport_number" class="input-field" required value="{{ form.id_or_passport_number.value|default:'' }}" placeholder="e.g. 12345678">
+            {% if form.id_or_passport_number.errors %}<p class="text-red-600 text-sm mt-1">{{ form.id_or_passport_number.errors.0 }}</p>{% endif %}
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-2">Full names as on ID/Passport *</label>
+            <input type="text" name="full_names_as_on_id" class="input-field" required value="{{ form.full_names_as_on_id.value|default:'' }}" placeholder="As on Government-issued ID">
+            {% if form.full_names_as_on_id.errors %}<p class="text-red-600 text-sm mt-1">{{ form.full_names_as_on_id.errors.0 }}</p>{% endif %}
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-2">Constituency *</label>
+            <select name="constituency" id="id_constituency" class="input-field" required>
+              <option value="">Select constituency</option>
+              {% for c in form.fields.constituency.queryset %}
+                <option value="{{ c.id }}" {% if form.constituency.value|stringformat:"s" == c.id|stringformat:"s" %}selected{% endif %}>{{ c.name }}</option>
+              {% endfor %}
+            </select>
+            {% if form.constituency.errors %}<p class="text-red-600 text-sm mt-1">{{ form.constituency.errors.0 }}</p>{% endif %}
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-2">Ward *</label>
+            <select name="ward" id="id_ward" class="input-field" required>
+              <option value="">Select ward (choose constituency first)</option>
+              {% for w in form.fields.ward.queryset %}
+                <option value="{{ w.id }}" data-constituency="{{ w.constituency_id }}">{{ w.name }}</option>
+              {% endfor %}
+            </select>
+            {% if form.ward.errors %}<p class="text-red-600 text-sm mt-1">{{ form.ward.errors.0 }}</p>{% endif %}
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-medium mb-2">First Name *</label>
             <input type="text" name="first_name" class="input-field" required value="{{ form.first_name.value|default:'' }}">
@@ -31,25 +66,29 @@
           <input type="text" name="username" class="input-field" required value="{{ form.username.value|default:'' }}">
           {% if form.username.errors %}<p class="text-red-600 text-sm mt-1">{{ form.username.errors.0 }}</p>{% endif %}
         </div>
-        <div>
-          <label class="block text-sm font-medium mb-2">Email *</label>
-          <input type="email" name="email" class="input-field" required value="{{ form.email.value|default:'' }}">
-          {% if form.email.errors %}<p class="text-red-600 text-sm mt-1">{{ form.email.errors.0 }}</p>{% endif %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-2">Email (optional)</label>
+            <input type="email" name="email" class="input-field" value="{{ form.email.value|default:'' }}">
+            {% if form.email.errors %}<p class="text-red-600 text-sm mt-1">{{ form.email.errors.0 }}</p>{% endif %}
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-2">Phone number *</label>
+            <input type="tel" name="phone_number" class="input-field" required value="{{ form.phone_number.value|default:'' }}" placeholder="e.g. +254715574285">
+            {% if form.phone_number.errors %}<p class="text-red-600 text-sm mt-1">{{ form.phone_number.errors.0 }}</p>{% endif %}
+          </div>
         </div>
-        <div>
-          <label class="block text-sm font-medium mb-2">Phone Number</label>
-          <input type="tel" name="phone_number" class="input-field" value="{{ form.phone_number.value|default:'' }}">
-          {% if form.phone_number.errors %}<p class="text-red-600 text-sm mt-1">{{ form.phone_number.errors.0 }}</p>{% endif %}
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-2">Password *</label>
-          <input type="password" name="password" class="input-field" required minlength="8">
-          {% if form.password.errors %}<p class="text-red-600 text-sm mt-1">{{ form.password.errors.0 }}</p>{% endif %}
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-2">Confirm Password *</label>
-          <input type="password" name="password_confirm" class="input-field" required>
-          {% if form.password_confirm.errors %}<p class="text-red-600 text-sm mt-1">{{ form.password_confirm.errors.0 }}</p>{% endif %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-2">Password *</label>
+            <input type="password" name="password" class="input-field" required minlength="8">
+            {% if form.password.errors %}<p class="text-red-600 text-sm mt-1">{{ form.password.errors.0 }}</p>{% endif %}
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-2">Confirm Password *</label>
+            <input type="password" name="password_confirm" class="input-field" required>
+            {% if form.password_confirm.errors %}<p class="text-red-600 text-sm mt-1">{{ form.password_confirm.errors.0 }}</p>{% endif %}
+          </div>
         </div>
         <button type="submit" class="w-full btn-primary">Register</button>
       </form>
@@ -59,4 +98,29 @@
     </div>
   </div>
 </div>
+<script>
+(function() {
+  var wardsByConstituency = {{ wards_by_constituency|safe }};
+  var constituencySelect = document.getElementById('id_constituency');
+  var wardSelect = document.getElementById('id_ward');
+  var preservedWard = "{{ form.ward.value|default:'' }}";
+  if (!constituencySelect || !wardSelect) return;
+  function updateWards() {
+    var cid = constituencySelect.value;
+    var first = wardSelect.options[0];
+    wardSelect.innerHTML = '';
+    wardSelect.appendChild(first);
+    if (!cid || !wardsByConstituency[cid]) return;
+    wardsByConstituency[cid].forEach(function(w) {
+      var o = document.createElement('option');
+      o.value = w.id;
+      o.textContent = w.name;
+      wardSelect.appendChild(o);
+    });
+    if (preservedWard) { wardSelect.value = preservedWard; preservedWard = null; }
+  }
+  constituencySelect.addEventListener('change', function() { preservedWard = null; updateWards(); });
+  updateWards();
+})();
+</script>
 {% endblock %}

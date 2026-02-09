@@ -1,0 +1,40 @@
+{% extends 'pages/manage/base_manage.html' %}
+{% block title %}Section backgrounds{% endblock %}
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold text-slate-800">Section backgrounds</h1>
+  <a href="{% url 'manage:section_style_add' %}" class="btn-manage inline-flex items-center gap-2">+ Add section</a>
+</div>
+<p class="text-slate-600 mb-6">Control background (plain, image, video, carousel) for header, hero, footer, and any page section. Use section keys: <code class="text-sm bg-slate-100 px-1 rounded">header</code>, <code class="text-sm bg-slate-100 px-1 rounded">hero</code>, <code class="text-sm bg-slate-100 px-1 rounded">footer</code>, <code class="text-sm bg-slate-100 px-1 rounded">about_hero</code>, <code class="text-sm bg-slate-100 px-1 rounded">contact_hero</code>, etc.</p>
+<div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+  <table class="w-full text-left">
+    <thead class="bg-slate-50 text-slate-600 text-sm">
+      <tr>
+        <th class="px-6 py-4 font-medium">Section key</th>
+        <th class="px-6 py-4 font-medium">Label</th>
+        <th class="px-6 py-4 font-medium">Type</th>
+        <th class="px-6 py-4 font-medium">Slides</th>
+        <th class="px-6 py-4 font-medium">Active</th>
+        <th class="px-6 py-4 font-medium w-32">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-slate-100">
+      {% for item in items %}
+      <tr class="hover:bg-slate-50/50">
+        <td class="px-6 py-4 font-mono text-sm">{{ item.section_key }}</td>
+        <td class="px-6 py-4 font-medium text-slate-800">{{ item.label }}</td>
+        <td class="px-6 py-4 text-sm">{{ item.get_background_type_display }}</td>
+        <td class="px-6 py-4 text-sm">{% if item.slides.exists %}{{ item.slides.count }}{% else %}-{% endif %}</td>
+        <td class="px-6 py-4">{% if item.is_active %}Yes{% else %}No{% endif %}</td>
+        <td class="px-6 py-4">
+          <a href="{% url 'manage:section_style_edit' item.pk %}" class="text-primary text-sm font-medium hover:underline">Edit</a>
+          <a href="{% url 'manage:section_style_delete' item.pk %}" class="text-red-600 text-sm font-medium hover:underline ml-1">Delete</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="6" class="px-6 py-12 text-center text-slate-500">No section backgrounds yet. Add header, hero, footer, etc.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

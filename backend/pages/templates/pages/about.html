@@ -1,16 +1,20 @@
 {% extends 'pages/base.html' %}
+{% load pages_extras %}
 
 {% block title %}About AGCBO{% endblock %}
 
 {% block content %}
-<section class="bg-gradient-to-br from-primary via-primary-light to-teal text-white py-20">
-  <div class="container mx-auto px-4">
+<section class="relative py-20 overflow-hidden min-h-[280px] flex items-center text-white">
+  {% with hero_style=section_styles.about_hero %}
+  {% if hero_style %}{% include "pages/includes/section_background.html" with style_obj=hero_style only %}{% else %}<div class="absolute inset-0 bg-gradient-to-br from-primary via-primary-light to-teal"></div>{% endif %}
+  <div class="relative z-10 container mx-auto px-4 w-full">
     <div class="max-w-4xl mx-auto text-center">
       <h1 class="text-5xl md:text-6xl font-bold mb-6">About AGCBO</h1>
       <p class="text-xl md:text-2xl text-gray-100 mb-4">Aminia Gikambura Community Based Organisation</p>
       <p class="text-lg text-gray-200 max-w-2xl mx-auto">Empowering youth, transforming communities, and building a better future for Kenya</p>
     </div>
   </div>
+  {% endwith %}
 </section>
 
 <section class="py-12 bg-gray-100">
@@ -40,15 +44,14 @@
   <section class="mb-16">
     <div class="card bg-green-50 border-l-4 border-primary p-8">
       <h2 class="text-3xl font-bold text-primary mb-4">Our Vision</h2>
-      <p class="text-lg text-gray-700 leading-relaxed">To be a leading youth-led community-based organisation that empowers young people and transforms communities through sustainable projects, strategic partnerships, and active civic engagement. We envision a future where every young person in Kenya has the skills, opportunities, and support they need to thrive, and where communities are self-reliant, prosperous, and actively contributing to national development goals.</p>
+      <p class="text-lg text-gray-700 leading-relaxed">{% if about_content.vision %}{{ about_content.vision|linebreaks }}{% else %}To be a leading youth-led community-based organisation that empowers young people and transforms communities through sustainable projects, strategic partnerships, and active civic engagement. We envision a future where every young person in Kenya has the skills, opportunities, and support they need to thrive, and where communities are self-reliant, prosperous, and actively contributing to national development goals.{% endif %}</p>
     </div>
   </section>
 
   <section class="mb-16">
     <div class="card bg-amber-50 border-l-4 border-accent p-8">
       <h2 class="text-3xl font-bold text-accent mb-4">Our Mission</h2>
-      <p class="text-lg text-gray-700 leading-relaxed mb-4">To mobilise, equip, and empower youth with the skills, knowledge, and opportunities they need to participate meaningfully in community development, advocate for their rights and interests, and contribute to achieving national goals in alignment with County Government and Ministry priorities.</p>
-      <p class="text-lg text-gray-700 leading-relaxed">We achieve this by implementing innovative projects, fostering partnerships with government and development partners, providing training and mentorship, and creating platforms for youth voice and leadership.</p>
+      <p class="text-lg text-gray-700 leading-relaxed">{% if about_content.mission %}{{ about_content.mission|linebreaks }}{% else %}To mobilise, equip, and empower youth with the skills, knowledge, and opportunities they need to participate meaningfully in community development, advocate for their rights and interests, and contribute to achieving national goals in alignment with County Government and Ministry priorities. We achieve this by implementing innovative projects, fostering partnerships with government and development partners, providing training and mentorship, and creating platforms for youth voice and leadership.{% endif %}</p>
     </div>
   </section>
 
@@ -67,9 +70,11 @@
   <section class="mb-16">
     <h2 class="text-3xl font-bold text-primary mb-6">Our Story</h2>
     <div class="prose max-w-none">
+      {% if about_content.our_story %}{{ about_content.our_story|linebreaks }}{% else %}
       <p class="text-lg text-gray-700 leading-relaxed mb-4"><strong>Aminia Gikambura Community Based Organisation (AGCBO)</strong> was founded by a group of passionate young leaders who recognized the immense potential of youth in driving community transformation. Registered and operating in Kenya, with a primary focus on <strong>Kiambu County</strong>, AGCBO has grown from a small grassroots initiative to a recognized partner in community development.</p>
       <p class="text-lg text-gray-700 leading-relaxed mb-4">Our journey began with a simple belief: that young people, when given the right tools, opportunities, and support, can be powerful agents of change in their communities. Over the years, we have worked tirelessly to bridge the gap between youth aspirations and community needs, creating programs that address real challenges while building the capacity of young people.</p>
       <p class="text-lg text-gray-700 leading-relaxed">Today, AGCBO stands as a testament to what is possible when youth leadership, community engagement, and strategic partnerships come together. We continue to expand our reach, deepen our impact, and inspire the next generation of community leaders.</p>
+      {% endif %}
     </div>
   </section>
 
@@ -100,6 +105,7 @@
       <h2 class="text-3xl font-bold text-primary mb-4">Registration & Legal Status</h2>
       <div class="space-y-3 text-gray-700">
         <p><strong>Organization Name:</strong> Aminia Gikambura Community Based Organisation (AGCBO)</p>
+        <p><strong>Registration Number:</strong> {% if site_settings and site_settings.registration_number %}{{ site_settings.registration_number }}{% else %}DSD/22/120/02/168788{% endif %}</p>
         <p><strong>Legal Status:</strong> Registered Community Based Organisation</p>
         <p><strong>Primary Operating Area:</strong> Kiambu County, Kenya</p>
         <p><strong>Scope:</strong> National (with focus on Kiambu County)</p>
@@ -122,9 +128,9 @@
   <section class="mb-16">
     <h2 class="text-3xl font-bold text-primary mb-6 text-center">Get in Touch</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="card text-center"><div class="text-4xl mb-3">📧</div><h3 class="font-bold text-primary mb-2">Email</h3><p class="text-gray-600">info@agcbo.org</p></div>
-      <div class="card text-center"><div class="text-4xl mb-3">📱</div><h3 class="font-bold text-primary mb-2">Phone</h3><p class="text-gray-600">+254 XXX XXX XXX</p></div>
-      <div class="card text-center"><div class="text-4xl mb-3">📍</div><h3 class="font-bold text-primary mb-2">Location</h3><p class="text-gray-600">Kiambu County, Kenya</p></div>
+      <div class="card text-center"><div class="text-4xl mb-3">📧</div><h3 class="font-bold text-primary mb-2">Email</h3><p class="text-gray-600">{% if site_settings %}{{ site_settings.email }}{% else %}info@agcbo.org{% endif %}</p></div>
+      <div class="card text-center"><div class="text-4xl mb-3">📱</div><h3 class="font-bold text-primary mb-2">Hotline</h3><p class="text-gray-600">{% if site_settings %}{{ site_settings.hotline_1 }}{% if site_settings.hotline_2 %} / {{ site_settings.hotline_2 }}{% endif %}{% if site_settings.hotline_3 %} / {{ site_settings.hotline_3 }}{% endif %}{% else %}+254715 574285 / +254728 758157 / +254787 786299{% endif %}</p></div>
+      <div class="card text-center"><div class="text-4xl mb-3">📍</div><h3 class="font-bold text-primary mb-2">Location</h3><p class="text-gray-600">{% if site_settings and site_settings.address %}{{ site_settings.address|bold_youth_labour_office }}{% else %}Gikambura (BUJU), Karai Ward, <strong>Youth Labour Office</strong>, Just Besides MCA's Office Along Gikambura Stadium{% endif %}</p></div>
     </div>
   </section>
 </div>

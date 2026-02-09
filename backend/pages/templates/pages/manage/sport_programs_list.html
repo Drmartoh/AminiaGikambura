@@ -1,0 +1,41 @@
+{% extends 'pages/manage/base_manage.html' %}
+{% block title %}Sport programs{% endblock %}
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold text-slate-800">Sport programs</h1>
+  <div class="flex gap-2">
+    <a href="{% url 'manage:teams_list' %}" class="px-4 py-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50">View teams</a>
+    <a href="{% url 'manage:sport_program_add' %}" class="btn-manage inline-flex items-center gap-2">+ Add program</a>
+  </div>
+</div>
+<div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+  <div class="overflow-x-auto">
+    <table class="w-full text-left">
+      <thead class="bg-slate-50 text-slate-600 text-sm">
+        <tr>
+          <th class="px-6 py-4 font-medium">Name</th>
+          <th class="px-6 py-4 font-medium">Sport type</th>
+          <th class="px-6 py-4 font-medium">Active</th>
+          <th class="px-6 py-4 font-medium w-32">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100">
+        {% for item in items %}
+        <tr class="hover:bg-slate-50/50">
+          <td class="px-6 py-4 font-medium text-slate-800">{{ item.name }}</td>
+          <td class="px-6 py-4 text-sm">{{ item.sport_type }}</td>
+          <td class="px-6 py-4">{% if item.is_active %}Yes{% else %}No{% endif %}</td>
+          <td class="px-6 py-4">
+            <a href="{% url 'manage:sport_program_edit' item.pk %}" class="text-primary text-sm font-medium hover:underline">Edit</a>
+            <span class="text-slate-300 mx-1">·</span>
+            <a href="{% url 'manage:sport_program_delete' item.pk %}" class="text-red-600 text-sm font-medium hover:underline">Delete</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4" class="px-6 py-12 text-center text-slate-500">No programs yet. <a href="{% url 'manage:sport_program_add' %}" class="text-primary font-medium">Add one</a>.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

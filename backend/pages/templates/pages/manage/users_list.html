@@ -1,0 +1,41 @@
+{% extends 'pages/manage/base_manage.html' %}
+{% block title %}Users{% endblock %}
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold text-slate-800">Users</h1>
+  <a href="{% url 'manage:user_add' %}" class="btn-manage inline-flex items-center gap-2">+ Add user</a>
+</div>
+<div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+  <div class="overflow-x-auto">
+    <table class="w-full text-left">
+      <thead class="bg-slate-50 text-slate-600 text-sm">
+        <tr>
+          <th class="px-6 py-4 font-medium">Username / Name</th>
+          <th class="px-6 py-4 font-medium">Email</th>
+          <th class="px-6 py-4 font-medium">Role</th>
+          <th class="px-6 py-4 font-medium">Approved</th>
+          <th class="px-6 py-4 font-medium">Active</th>
+          <th class="px-6 py-4 font-medium w-24">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100">
+        {% for u in users %}
+        <tr class="hover:bg-slate-50/50">
+          <td class="px-6 py-4">
+            <p class="font-medium text-slate-800">{{ u.username }}</p>
+            <p class="text-sm text-slate-500">{{ u.get_full_name|default:u.full_names_as_on_id|default:"—" }}</p>
+          </td>
+          <td class="px-6 py-4 text-sm">{{ u.email|default:"—" }}</td>
+          <td class="px-6 py-4 text-sm">{{ u.get_role_display }}</td>
+          <td class="px-6 py-4">{% if u.is_approved %}<span class="text-emerald-600">Yes</span>{% else %}<span class="text-amber-600">No</span>{% endif %}</td>
+          <td class="px-6 py-4">{% if u.is_active %}Yes{% else %}<span class="text-red-600">No</span>{% endif %}</td>
+          <td class="px-6 py-4"><a href="{% url 'manage:user_edit' u.pk %}" class="text-primary text-sm font-medium hover:underline">Edit</a></td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6" class="px-6 py-8 text-center text-slate-500">No users yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

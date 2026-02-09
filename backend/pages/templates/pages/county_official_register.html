@@ -1,0 +1,81 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}Register as County Official{% endblock %}
+
+{% block content %}
+<div class="flex items-center justify-center py-12 bg-gray-100">
+  <div class="w-full max-w-2xl px-4">
+    <div class="card">
+      <h1 class="text-3xl font-bold text-center mb-2">Register as County Official</h1>
+      <p class="text-center text-gray-600 text-sm mb-6">Provide your details below. Your account will be active after verification.</p>
+      {% if form.non_field_errors %}
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          {% for err in form.non_field_errors %}{{ err }}{% endfor %}
+        </div>
+      {% endif %}
+      <form method="post" action="{% url 'pages:county_official_register' %}" class="space-y-4">
+        {% csrf_token %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-2">First name *</label>
+            <input type="text" name="first_name" class="input-field" required value="{{ form.first_name.value|default:'' }}">
+            {% if form.first_name.errors %}<p class="text-red-600 text-sm mt-1">{{ form.first_name.errors.0 }}</p>{% endif %}
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-2">Last name *</label>
+            <input type="text" name="last_name" class="input-field" required value="{{ form.last_name.value|default:'' }}">
+            {% if form.last_name.errors %}<p class="text-red-600 text-sm mt-1">{{ form.last_name.errors.0 }}</p>{% endif %}
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-2">Department *</label>
+          <select name="department" class="input-field" required>
+            <option value="">Select department</option>
+            {% for value, label in form.fields.department.choices %}
+              {% if value %}<option value="{{ value }}" {% if form.department.value == value %}selected{% endif %}>{{ label }}</option>{% endif %}
+            {% endfor %}
+          </select>
+          {% if form.department.errors %}<p class="text-red-600 text-sm mt-1">{{ form.department.errors.0 }}</p>{% endif %}
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-2">Phone number *</label>
+            <input type="tel" name="phone_number" class="input-field" required value="{{ form.phone_number.value|default:'' }}" placeholder="e.g. +254715574285">
+            {% if form.phone_number.errors %}<p class="text-red-600 text-sm mt-1">{{ form.phone_number.errors.0 }}</p>{% endif %}
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-2">Email *</label>
+            <input type="email" name="email" class="input-field" required value="{{ form.email.value|default:'' }}">
+            {% if form.email.errors %}<p class="text-red-600 text-sm mt-1">{{ form.email.errors.0 }}</p>{% endif %}
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-2">Username *</label>
+          <input type="text" name="username" class="input-field" required value="{{ form.username.value|default:'' }}">
+          {% if form.username.errors %}<p class="text-red-600 text-sm mt-1">{{ form.username.errors.0 }}</p>{% endif %}
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-2">Password *</label>
+            <input type="password" name="password" class="input-field" required minlength="8">
+            {% if form.password.errors %}<p class="text-red-600 text-sm mt-1">{{ form.password.errors.0 }}</p>{% endif %}
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-2">Confirm password *</label>
+            <input type="password" name="password_confirm" class="input-field" required>
+            {% if form.password_confirm.errors %}<p class="text-red-600 text-sm mt-1">{{ form.password_confirm.errors.0 }}</p>{% endif %}
+          </div>
+        </div>
+        <button type="submit" class="w-full btn-primary">Register as County Official</button>
+      </form>
+      <p class="text-center mt-6 text-gray-600">
+        Already have an account? <a href="{% url 'pages:login' %}" class="text-primary hover:text-primary-light font-semibold">Login here</a>
+      </p>
+      <p class="text-center mt-2 text-gray-500 text-sm">
+        <a href="{% url 'pages:register' %}" class="text-primary hover:underline">Join as member</a> &middot;
+        <a href="{% url 'pages:donor_register' %}" class="text-primary hover:underline">Register as donor/sponsor</a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

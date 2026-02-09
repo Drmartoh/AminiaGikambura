@@ -1,0 +1,96 @@
+{% extends 'pages/manage/base_manage.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-bold text-slate-800 mb-6">Dashboard</h1>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+  <a href="{% url 'manage:members' %}" class="stat-card bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-slate-500 text-sm font-medium">Pending approval</p>
+        <p class="text-3xl font-bold text-primary mt-1">{{ pending_members }}</p>
+      </div>
+      <div class="w-14 h-14 rounded-xl bg-amber-100 flex items-center justify-center">
+        <svg class="w-7 h-7 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+    </div>
+    <p class="text-sm text-slate-500 mt-3">Review & approve members</p>
+  </a>
+  <div class="stat-card bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-slate-500 text-sm font-medium">Approved members</p>
+        <p class="text-3xl font-bold text-primary mt-1">{{ total_members }}</p>
+      </div>
+      <div class="w-14 h-14 rounded-xl bg-emerald-100 flex items-center justify-center">
+        <svg class="w-7 h-7 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+      </div>
+    </div>
+    <p class="text-sm text-slate-500 mt-3">Total active members</p>
+  </div>
+  <a href="{% url 'manage:gallery_list' %}" class="stat-card bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-slate-500 text-sm font-medium">Gallery</p>
+        <p class="text-3xl font-bold text-primary mt-1">{{ gallery_count }}</p>
+      </div>
+      <div class="w-14 h-14 rounded-xl bg-sky-100 flex items-center justify-center">
+        <svg class="w-7 h-7 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+      </div>
+    </div>
+    <p class="text-sm text-slate-500 mt-3">Photos & videos</p>
+  </a>
+  <a href="{% url 'manage:projects_list' %}" class="stat-card bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-slate-500 text-sm font-medium">Projects</p>
+        <p class="text-3xl font-bold text-primary mt-1">{{ projects_count }}</p>
+      </div>
+    </div>
+    <p class="text-sm text-slate-500 mt-3">Published on site</p>
+  </a>
+  <a href="{% url 'manage:events_list' %}" class="stat-card bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-slate-500 text-sm font-medium">Events</p>
+        <p class="text-3xl font-bold text-primary mt-1">{{ events_count }}</p>
+      </div>
+    </div>
+    <p class="text-sm text-slate-500 mt-3">Published</p>
+  </a>
+  <a href="{% url 'manage:officials_list' %}" class="stat-card bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-slate-500 text-sm font-medium">Officials</p>
+        <p class="text-3xl font-bold text-primary mt-1">{{ officials_count }}</p>
+      </div>
+    </div>
+    <p class="text-sm text-slate-500 mt-3">On Officials page</p>
+  </a>
+  <a href="{% url 'manage:youth_jobs_list' %}" class="stat-card bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-slate-500 text-sm font-medium">Youth Jobs</p>
+        <p class="text-3xl font-bold text-primary mt-1">{{ youth_jobs_count }}</p>
+      </div>
+    </div>
+    <p class="text-sm text-slate-500 mt-3">Opportunities</p>
+  </a>
+</div>
+<div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+  <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+    <h2 class="font-bold text-slate-800">Recent contact messages</h2>
+    <a href="{% url 'manage:messages' %}" class="text-sm text-primary font-medium hover:underline">View all</a>
+  </div>
+  <div class="divide-y divide-slate-100">
+    {% for msg in recent_messages %}
+    <div class="px-6 py-4 hover:bg-slate-50/50">
+      <p class="font-medium text-slate-800">{{ msg.subject }}</p>
+      <p class="text-sm text-slate-500">{{ msg.name }} · {{ msg.email }} · {{ msg.created_at|date:"M d, Y H:i" }}</p>
+      <p class="text-sm text-slate-600 mt-1 line-clamp-2">{{ msg.message }}</p>
+    </div>
+    {% empty %}
+    <div class="px-6 py-8 text-center text-slate-500">No messages yet.</div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

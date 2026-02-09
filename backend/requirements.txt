@@ -8,10 +8,10 @@ celery==5.3.4
 redis==5.0.1
 django-cloudinary-storage==0.3.0
 cloudinary==1.37.0
-Pillow==10.1.0
+Pillow>=10.4.0,<11
 python-decouple==3.8
 django-filter==23.5
 django-extensions==3.2.3
 reportlab==4.0.7
 requests==2.31.0
-python-mpesa==0.4.9
+# python-mpesa: not on PyPI for this Python version; add back when integrating M-Pesa API

@@ -24,6 +24,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-this-in-produc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
+# Comma-separated hostnames only (no https://). Set ALLOWED_HOSTS in .env for production.
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=lambda v: [s.strip() for s in v.split(',')])
 
 # Application definition
@@ -73,7 +74,7 @@ ROOT_URLCONF = 'agcbo.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,6 +82,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'core.context_processors.site_settings',
+                'core.context_processors.section_styles',
             ],
         },
     },
@@ -88,8 +91,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'agcbo.wsgi.application'
 
-# Database
-DB_ENGINE = config('DB_ENGINE', default='postgresql')
+# Database (set DB_ENGINE=sqlite in .env for PythonAnywhere / no PostgreSQL)
+DB_ENGINE = config('DB_ENGINE', default='sqlite')
 if DB_ENGINE == 'sqlite':
     DATABASES = {
         'default': {

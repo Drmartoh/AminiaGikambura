@@ -17,6 +17,7 @@ except ImportError:
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('pages.urls', namespace='pages')),
+    path('manage/', include('pages.manage_urls', namespace='manage')),
     path('api/', api_root, name='api-root'),
     path('api/auth/', include('core.urls')),
     path('api/members/', include('members.urls')),

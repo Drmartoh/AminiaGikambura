@@ -1,0 +1,27 @@
+{% extends 'pages/manage/base_manage.html' %}
+{% block title %}Site settings{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-bold text-slate-800 mb-6">Site settings</h1>
+<div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 max-w-2xl">
+  {% if site_settings.logo %}
+  <div class="mb-6">
+    <p class="text-sm text-slate-500 mb-1">Current logo</p>
+    <img src="{{ site_settings.logo.url }}" alt="Logo" class="h-16 object-contain">
+  </div>
+  {% endif %}
+  <form method="post" enctype="multipart/form-data" class="space-y-5">
+    {% csrf_token %}
+    {% for field in form %}
+    <div>
+      <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-slate-700 mb-1">{{ field.label }}</label>
+      {{ field }}
+      {% if field.help_text %}<p class="text-xs text-slate-500 mt-1">{{ field.help_text }}</p>{% endif %}
+      {% if field.errors %}<p class="text-sm text-red-600 mt-1">{{ field.errors.0 }}</p>{% endif %}
+    </div>
+    {% endfor %}
+    <div class="pt-2">
+      <button type="submit" class="btn-manage">Save settings</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

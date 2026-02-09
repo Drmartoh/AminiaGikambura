@@ -1,0 +1,81 @@
+{% extends 'pages/manage/base_manage.html' %}
+{% block title %}Members{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-bold text-slate-800 mb-6">Members</h1>
+
+{% if pending %}
+<section class="mb-8">
+  <h2 class="text-lg font-semibold text-slate-700 mb-4 flex items-center gap-2">
+    <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+    Pending approval ({{ pending|length }})
+  </h2>
+  <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left">
+        <thead class="bg-slate-50 text-slate-600 text-sm">
+          <tr>
+            <th class="px-6 py-4 font-medium">Name / Username</th>
+            <th class="px-6 py-4 font-medium">Contact</th>
+            <th class="px-6 py-4 font-medium">Ward</th>
+            <th class="px-6 py-4 font-medium">Registered</th>
+            <th class="px-6 py-4 font-medium w-48">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+          {% for u in pending %}
+          <tr class="hover:bg-slate-50/50">
+            <td class="px-6 py-4">
+              <p class="font-medium text-slate-800">{{ u.full_names_as_on_id|default:u.get_full_name|default:u.username }}</p>
+              <p class="text-sm text-slate-500">@{{ u.username }}</p>
+            </td>
+            <td class="px-6 py-4 text-sm">{{ u.phone_number|default:"—" }} {% if u.email %}<br>{{ u.email }}{% endif %}</td>
+            <td class="px-6 py-4 text-sm">{% if u.ward %}{{ u.ward.name }}{% else %}—{% endif %}</td>
+            <td class="px-6 py-4 text-sm text-slate-500">{{ u.date_joined|date:"M d, Y" }}</td>
+            <td class="px-6 py-4">
+              <div class="flex gap-2">
+                <a href="{% url 'manage:member_approve' u.pk %}" class="btn-manage text-sm py-1.5 px-3 rounded-lg">Approve</a>
+                <a href="{% url 'manage:member_reject' u.pk %}" class="text-sm py-1.5 px-3 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-100">Reject</a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section>
+  <h2 class="text-lg font-semibold text-slate-700 mb-4">Approved members</h2>
+  <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left">
+        <thead class="bg-slate-50 text-slate-600 text-sm">
+          <tr>
+            <th class="px-6 py-4 font-medium">Name / Username</th>
+            <th class="px-6 py-4 font-medium">Contact</th>
+            <th class="px-6 py-4 font-medium">Ward</th>
+            <th class="px-6 py-4 font-medium">Joined</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+          {% for u in approved %}
+          <tr class="hover:bg-slate-50/50">
+            <td class="px-6 py-4">
+              <p class="font-medium text-slate-800">{{ u.full_names_as_on_id|default:u.get_full_name|default:u.username }}</p>
+              <p class="text-sm text-slate-500">@{{ u.username }}</p>
+            </td>
+            <td class="px-6 py-4 text-sm">{{ u.phone_number|default:"—" }} {% if u.email %}<br>{{ u.email }}{% endif %}</td>
+            <td class="px-6 py-4 text-sm">{% if u.ward %}{{ u.ward.name }}{% else %}—{% endif %}</td>
+            <td class="px-6 py-4 text-sm text-slate-500">{{ u.date_joined|date:"M d, Y" }}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="4" class="px-6 py-8 text-center text-slate-500">No approved members yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock %}

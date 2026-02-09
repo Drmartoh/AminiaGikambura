@@ -1,0 +1,78 @@
+{% extends 'pages/manage/base_manage.html' %}
+{% block title %}County Officials{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-bold text-slate-800 mb-6">County Officials</h1>
+
+{% if pending %}
+<section class="mb-8">
+  <h2 class="text-lg font-semibold text-slate-700 mb-4 flex items-center gap-2">
+    <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+    Pending verification ({{ pending|length }})
+  </h2>
+  <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left">
+        <thead class="bg-slate-50 text-slate-600 text-sm">
+          <tr>
+            <th class="px-6 py-4 font-medium">Name</th>
+            <th class="px-6 py-4 font-medium">Department</th>
+            <th class="px-6 py-4 font-medium">Contact</th>
+            <th class="px-6 py-4 font-medium">Registered</th>
+            <th class="px-6 py-4 font-medium w-48">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+          {% for u in pending %}
+          <tr class="hover:bg-slate-50/50">
+            <td class="px-6 py-4">
+              <p class="font-medium text-slate-800">{{ u.get_full_name|default:u.username }}</p>
+              <p class="text-sm text-slate-500">@{{ u.username }}</p>
+            </td>
+            <td class="px-6 py-4 text-sm">{{ u.get_department_display|default:"—" }}</td>
+            <td class="px-6 py-4 text-sm">{{ u.phone_number|default:"—" }} {% if u.email %}<br>{{ u.email }}{% endif %}</td>
+            <td class="px-6 py-4 text-sm text-slate-500">{{ u.date_joined|date:"M d, Y" }}</td>
+            <td class="px-6 py-4">
+              <a href="{% url 'manage:county_official_verify' u.pk %}" class="btn-manage text-sm py-1.5 px-3 rounded-lg">Verify</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section>
+  <h2 class="text-lg font-semibold text-slate-700 mb-4">Verified county officials</h2>
+  <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left">
+        <thead class="bg-slate-50 text-slate-600 text-sm">
+          <tr>
+            <th class="px-6 py-4 font-medium">Name</th>
+            <th class="px-6 py-4 font-medium">Department</th>
+            <th class="px-6 py-4 font-medium">Contact</th>
+            <th class="px-6 py-4 font-medium">Verified</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+          {% for u in verified %}
+          <tr class="hover:bg-slate-50/50">
+            <td class="px-6 py-4">
+              <p class="font-medium text-slate-800">{{ u.get_full_name|default:u.username }}</p>
+              <p class="text-sm text-slate-500">@{{ u.username }}</p>
+            </td>
+            <td class="px-6 py-4 text-sm">{{ u.get_department_display|default:"—" }}</td>
+            <td class="px-6 py-4 text-sm">{{ u.phone_number|default:"—" }} {% if u.email %}<br>{{ u.email }}{% endif %}</td>
+            <td class="px-6 py-4 text-sm text-slate-500">{{ u.date_joined|date:"M d, Y" }}</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="4" class="px-6 py-8 text-center text-slate-500">No verified county officials yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock %}
