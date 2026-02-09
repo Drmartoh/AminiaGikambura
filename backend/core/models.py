@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
 
+from core.storage import get_storage
+
 
 class Constituency(models.Model):
     """Kiambu County constituency (for member registration)."""
@@ -133,8 +135,8 @@ class SiteSettings(models.Model):
     """Singleton: logo, hotlines, address, social links (editable in admin)."""
     site_name = models.CharField(max_length=200, default='AGCBO Digital Hub')
     registration_number = models.CharField(max_length=80, blank=True, default='DSD/22/120/02/168788', help_text='CBO Registration No. (displayed in header and key areas)')
-    logo = models.ImageField(upload_to='site/', blank=True, null=True, help_text='Organization logo (header)')
-    favicon = models.ImageField(upload_to='site/', blank=True, null=True)
+    logo = models.ImageField(upload_to='site/', storage=get_storage(), blank=True, null=True, help_text='Organization logo (header)')
+    favicon = models.ImageField(upload_to='site/', storage=get_storage(), blank=True, null=True)
     hotline_1 = models.CharField(max_length=25, blank=True, default='+254715574285')
     hotline_2 = models.CharField(max_length=25, blank=True, default='+254728758157')
     hotline_3 = models.CharField(max_length=25, blank=True, default='+254787786299')
