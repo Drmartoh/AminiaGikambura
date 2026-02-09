@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}AGCBO Digital Hub{% endblock %} - Aminia Gikambura CBO</title>
   {% if site_settings and site_settings.favicon %}
-  <link rel="icon" href="{{ site_settings.favicon.url }}">
-  <link rel="shortcut icon" href="{{ site_settings.favicon.url }}">
+  <link rel="icon" href="{{ site_settings.favicon.url|absolute_media:request }}">
+  <link rel="shortcut icon" href="{{ site_settings.favicon.url|absolute_media:request }}">
   {% endif %}
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -52,7 +52,7 @@
       <div class="flex items-center justify-between h-14 md:h-16">
         <a href="{% url 'pages:dashboard' %}" class="flex items-center gap-3 shrink-0 group">
           {% if site_settings and site_settings.logo %}
-          <img src="{{ site_settings.logo.url }}" alt="AGCBO" class="h-8 w-auto object-contain">
+          <img src="{{ site_settings.logo.url|absolute_media:request }}" alt="AGCBO" class="h-8 w-auto object-contain">
           {% else %}
           <div class="w-9 h-9 bg-primary rounded-lg flex items-center justify-center">
             <span class="text-white font-bold">A</span>
@@ -112,7 +112,7 @@
         <div class="flex items-center justify-between gap-6">
           <a href="{% url 'pages:home' %}" class="flex items-center gap-3 shrink-0 group">
             {% if site_settings and site_settings.logo %}
-            <img src="{{ site_settings.logo.url }}" alt="AGCBO" class="h-10 w-auto object-contain group-hover:opacity-90 transition-opacity">
+            <img src="{{ site_settings.logo.url|absolute_media:request }}" alt="AGCBO" class="h-10 w-auto object-contain group-hover:opacity-90 transition-opacity">
             {% else %}
             <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform">
               <span class="text-white font-bold text-lg">A</span>

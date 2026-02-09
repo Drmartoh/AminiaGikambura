@@ -1,5 +1,5 @@
 {% extends 'pages/base.html' %}
-
+{% load pages_extras %}
 {% block title %}{{ project.title }}{% endblock %}
 
 {% block content %}
@@ -7,7 +7,7 @@
   <a href="{% url 'pages:projects' %}" class="text-primary font-semibold mb-6 inline-block hover:underline">← Back to Projects</a>
   {% if project.featured_image %}
   <div class="w-full h-64 md:h-96 bg-gray-200 rounded-xl mb-8 overflow-hidden">
-    <img src="{{ project.featured_image.url }}" alt="{{ project.title }}" class="w-full h-full object-cover">
+    <img src="{{ project.featured_image.url|absolute_media:request }}" alt="{{ project.title }}" class="w-full h-full object-cover">
   </div>
   {% endif %}
   {% if project.category %}<span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">{{ project.category.name }}</span>{% endif %}

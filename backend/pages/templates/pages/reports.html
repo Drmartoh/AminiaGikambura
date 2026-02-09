@@ -1,5 +1,5 @@
 {% extends 'pages/base.html' %}
-
+{% load pages_extras %}
 {% block title %}Reports{% endblock %}
 
 {% block content %}
@@ -17,7 +17,7 @@
       {% if report.report_url %}
       <a href="{{ report.report_url }}" target="_blank" rel="noopener noreferrer" class="btn-primary text-sm py-2 px-4 inline-block">View / Download</a>
       {% elif report.report_file %}
-      <a href="{{ report.report_file.url }}" target="_blank" rel="noopener noreferrer" class="btn-primary text-sm py-2 px-4 inline-block">View / Download</a>
+      <a href="{{ report.report_file.url|absolute_media:request }}" target="_blank" rel="noopener noreferrer" class="btn-primary text-sm py-2 px-4 inline-block">View / Download</a>
       {% endif %}
     </div>
     {% endfor %}

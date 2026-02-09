@@ -160,9 +160,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Media files
+# Media files (uploaded logos, images, videos) – use absolute path so serving works from any CWD
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = (BASE_DIR / 'media').resolve()
 
 # Cloudinary settings (only when all credentials are set). Django 4.2+ uses STORAGES only (not DEFAULT_FILE_STORAGE).
 if CLOUDINARY_AVAILABLE:

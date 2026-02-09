@@ -1,4 +1,5 @@
 {% extends 'pages/base.html' %}
+{% load pages_extras %}
 {% block title %}Our Officials{% endblock %}
 {% block content %}
 <section class="relative py-20 overflow-hidden min-h-[200px] flex items-center text-white">
@@ -18,7 +19,7 @@
     <article class="card overflow-hidden p-0 text-center">
       {% if o.photo %}
       <div class="aspect-square max-w-xs mx-auto rounded-full overflow-hidden mt-6 border-4 border-primary/20">
-        <img src="{{ o.photo.url }}" alt="{{ o.name }}" class="w-full h-full object-cover">
+        <img src="{{ o.photo.url|absolute_media:request }}" alt="{{ o.name }}" class="w-full h-full object-cover">
       </div>
       {% else %}
       <div class="aspect-square max-w-xs mx-auto rounded-full bg-primary/10 flex items-center justify-center mt-6 border-4 border-primary/20">

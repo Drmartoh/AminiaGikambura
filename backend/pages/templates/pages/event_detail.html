@@ -1,5 +1,5 @@
 {% extends 'pages/base.html' %}
-
+{% load pages_extras %}
 {% block title %}{{ event.title }}{% endblock %}
 
 {% block content %}
@@ -7,7 +7,7 @@
   <a href="{% url 'pages:events' %}" class="text-primary font-semibold mb-6 inline-block hover:underline">← Back to Events</a>
   {% if event.featured_image %}
   <div class="w-full h-64 md:h-96 bg-gray-200 rounded-xl mb-8 overflow-hidden">
-    <img src="{{ event.featured_image.url }}" alt="{{ event.title }}" class="w-full h-full object-cover">
+    <img src="{{ event.featured_image.url|absolute_media:request }}" alt="{{ event.title }}" class="w-full h-full object-cover">
   </div>
   {% endif %}
   <span class="px-3 py-1 bg-accent/10 text-accent rounded-full text-sm">{{ event.get_event_type_display }}</span>

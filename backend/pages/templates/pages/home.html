@@ -1,5 +1,5 @@
 {% extends 'pages/base.html' %}
-{% load static %}
+{% load static %}{% load pages_extras %}
 
 {% block title %}Home{% endblock %}
 
@@ -72,7 +72,7 @@
       <a href="{% url 'pages:project_detail' project.slug %}" class="card group block">
         {% if project.featured_image %}
         <div class="w-full h-48 bg-gray-200 rounded-xl mb-4 overflow-hidden">
-          <img src="{{ project.featured_image.url }}" alt="{{ project.title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+          <img src="{{ project.featured_image.url|absolute_media:request }}" alt="{{ project.title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
         </div>
         {% endif %}
         {% if project.category %}<span class="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm mb-3">{{ project.category.name }}</span>{% endif %}

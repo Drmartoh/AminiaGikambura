@@ -1,5 +1,5 @@
 {% extends 'pages/base.html' %}
-
+{% load pages_extras %}
 {% block title %}Gallery{% endblock %}
 
 {% block content %}
@@ -18,7 +18,7 @@
       </div>
       {% elif item.image_url %}
       <div class="aspect-[4/3] bg-gray-100 overflow-hidden">
-        <img src="{{ item.image_url }}" alt="{{ item.title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" referrerpolicy="no-referrer">
+        <img src="{{ item.image_url|absolute_media:request }}" alt="{{ item.title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" referrerpolicy="no-referrer">
       </div>
       {% endif %}
       <div class="p-4">

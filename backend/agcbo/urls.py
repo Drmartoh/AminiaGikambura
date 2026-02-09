@@ -6,6 +6,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from .api_root import api_root
+from .media_views import serve_media
 
 # JWT views (optional)
 try:
@@ -16,6 +17,8 @@ except ImportError:
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # Serve uploaded media (logo, images, videos) from MEDIA_ROOT – explicit view so it works in production
+    path('media/<path:path>', serve_media),
     path('', include('pages.urls', namespace='pages')),
     path('manage/', include('pages.manage_urls', namespace='manage')),
     path('api/', api_root, name='api-root'),
@@ -30,8 +33,6 @@ urlpatterns = [
     path('api/reports/', include('reports.urls')),
 ]
 
-# Serve media files (uploaded logo, images, etc.) in both dev and production so they display
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 # Serve static files in development; in production use Web server / collectstatic + mapping
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

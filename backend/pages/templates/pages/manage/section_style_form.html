@@ -1,4 +1,5 @@
 {% extends 'pages/manage/base_manage.html' %}
+{% load pages_extras %}
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
 <div class="mb-6"><a href="{% url 'manage:section_styles_list' %}" class="text-slate-500 hover:text-slate-700 text-sm">Back to section backgrounds</a></div>
@@ -26,7 +27,7 @@
   <div class="flex flex-wrap gap-4 mb-4">
     {% for slide in item.slides.all %}
     <div class="border border-slate-200 rounded-lg overflow-hidden w-32">
-      <img src="{{ slide.image.url }}" alt="" class="w-full h-20 object-cover">
+      <img src="{{ slide.image.url|absolute_media:request }}" alt="" class="w-full h-20 object-cover">
       <div class="p-2 flex justify-between items-center">
         <span class="text-xs text-slate-500">#{{ slide.order }}</span>
         <a href="{% url 'manage:section_slide_delete' slide.pk %}" class="text-red-600 text-xs hover:underline">Remove</a>

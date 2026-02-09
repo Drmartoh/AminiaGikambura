@@ -1,4 +1,4 @@
-{% load static %}
+{% load static %}{% load pages_extras %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Manage{% endblock %} – AGCBO</title>
   {% if site_settings and site_settings.favicon %}
-  <link rel="icon" href="{{ site_settings.favicon.url }}">
-  <link rel="shortcut icon" href="{{ site_settings.favicon.url }}">
+  <link rel="icon" href="{{ site_settings.favicon.url|absolute_media:request }}">
+  <link rel="shortcut icon" href="{{ site_settings.favicon.url|absolute_media:request }}">
   {% endif %}
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
