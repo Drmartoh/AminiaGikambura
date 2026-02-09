@@ -3,8 +3,19 @@ Django settings for agcbo project.
 """
 
 from pathlib import Path
-from decouple import config
 from datetime import timedelta
+
+# Build paths: backend directory (where manage.py and .env live)
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load .env from backend directory so it's found regardless of CWD (fixes migrate on PythonAnywhere)
+from decouple import Config, RepositoryEnv
+_env_path = BASE_DIR / '.env'
+if _env_path.exists():
+    config = Config(RepositoryEnv(str(_env_path)))
+else:
+    from decouple import config as _default_config
+    config = _default_config
 
 # Cloudinary: only enable when package is installed AND credentials are set
 CLOUDINARY_AVAILABLE = False
@@ -19,9 +30,6 @@ try:
         CLOUDINARY_AVAILABLE = True
 except ImportError:
     pass
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-this-in-production')
@@ -98,7 +106,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'agcbo.wsgi.application'
 
 # Database (set DB_ENGINE=sqlite in .env for PythonAnywhere / no PostgreSQL)
-DB_ENGINE = config('DB_ENGINE', default='sqlite')
+DB_ENGINE = (config('DB_ENGINE', default='sqlite') or 'sqlite').strip().lower()
 if DB_ENGINE == 'sqlite':
     DATABASES = {
         'default': {
