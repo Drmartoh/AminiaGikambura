@@ -30,7 +30,8 @@ urlpatterns = [
     path('api/reports/', include('reports.urls')),
 ]
 
-# Serve media files in development
+# Serve media files (uploaded logo, images, etc.) in both dev and production so they display
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Serve static files in development; in production use Web server / collectstatic + mapping
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
