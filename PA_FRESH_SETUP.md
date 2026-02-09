@@ -193,3 +193,7 @@ You should see the site. Try:
 - **“DisallowedHost”:** In `.env`, set `ALLOWED_HOSTS=YOUR_USERNAME.pythonanywhere.com` (no `https://`, no slash).
 - **Static/CSS not loading:** Confirm the two static file URLs and paths, and that you ran `collectstatic`.
 - **“No module named …”:** Ensure the virtualenv path is correct and you ran `pip install -r requirements.txt` inside that venv.
+- **Logo or uploads 404 (broken image):**
+  1. **If you have a Static files row for `/media/`:** Set **Directory** to `.../backend/media` (same path as your project’s `backend/media`). Ensure that folder exists and that uploads (e.g. `site/`, `sections/`) are inside it.
+  2. **If you do not have a `/media/` mapping:** The app serves media via Django. Pull the latest code (which adds media serving in `urls.py`), reload the web app, then try again.
+  3. **Re-upload the logo** from **Manage → Settings** so the file is saved with the current storage (filesystem). Then hard-refresh the page (Ctrl+F5).
