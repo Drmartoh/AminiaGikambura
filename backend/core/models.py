@@ -90,7 +90,8 @@ class User(AbstractUser):
     
     @property
     def is_admin_user(self):
-        return self.role in ['admin', 'super_admin']
+        """True if user can access the manage dashboard (custom role or Django superuser)."""
+        return self.role in ['admin', 'super_admin'] or self.is_superuser
 
 
 class AuditLog(models.Model):

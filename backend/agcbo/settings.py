@@ -24,8 +24,9 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-this-in-produc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-# Comma-separated hostnames only (no https://). Set ALLOWED_HOSTS in .env for production.
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=lambda v: [s.strip() for s in v.split(',')])
+# Comma-separated hostnames only (no https://). Set ALLOWED_HOSTS in .env to override.
+# Default includes localhost and PythonAnywhere (.pythonanywhere.com allows any subdomain).
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,.pythonanywhere.com', cast=lambda v: [s.strip() for s in v.split(',')])
 
 # Application definition
 INSTALLED_APPS = [
